@@ -11,6 +11,7 @@ const config = {
     logLevel: 'info',
     mqttBaseTopic: 'teleinfo',
     mqttUrl: 'mqtt://localhost:1883',
+    mqttClientId: undefined,
     mqttUser: undefined,
     mqttPassword: undefined,
     mqttTlsClientKey: undefined,
@@ -48,6 +49,9 @@ function overrideConfiguration(overrideObject) {
     }
     if (overrideObject.MQTT_URL) {
         config.mqttUrl = overrideObject.MQTT_URL;
+    }
+    if (overrideObject.MQTT_CLIENT_ID && overrideObject.MQTT_CLIENT_ID !== '') {
+        config.mqttClientId = overrideObject.MQTT_CLIENT_ID;
     }
     if (overrideObject.MQTT_USER && overrideObject.MQTT_USER !== '') {
         config.mqttUser = overrideObject.MQTT_USER;
