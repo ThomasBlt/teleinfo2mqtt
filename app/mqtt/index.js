@@ -4,6 +4,7 @@ const log = require('../log');
 
 const {
     mqttUrl,
+    mqttClientId,
     mqttUser,
     mqttPassword,
     mqttBaseTopic,
@@ -125,6 +126,14 @@ async function publishTempoData({ tempoData }) {
  */
 async function connect({ teleinfoService, tempoService }) {
     const options = {};
+    if (mqttClientId) {
+        // use ClientId set in environment variable if provided
+        options.clientId = mqttClientId;
+    } else if (mqttUser) {
+        // default ClientId to username + random
+        const safeUsername = mqttUser.replace(/[^A-Za-Z0-9]+/g, "_")
+        options.clientId = safeUsername + '_' + Math.random().toString(16).substring(2, 8)
+    }// last resort don't set ClientId and let underlying library define it
     if (mqttUser) {
         options.username = mqttUser;
     }
